@@ -1,5 +1,5 @@
 <head>
-<title>Villain Generator</title>
+<title>True20 Villain Generator</title>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript">
 	function villain(selected_level, name){
@@ -20,7 +20,6 @@
 	this.Charisma = selected_level[15];
 	this.Name = name;
 	
-	this.MB = parseInt(this.BCB) + parseInt(this.Strength);
 	this.Primary_Attack = parseInt(this.BCB) + parseInt(this.Dexterity);
 	this.Full_Damage = parseInt(this.Damage) + parseInt(this.Strength);
 	this.Base_Defense = parseInt(this.BCB) + 10;
@@ -120,8 +119,7 @@
 		$(".Will").html(this.Will);
 		if (this.Abilities != '') {$(".Abilities").html(this.Abilities);}
 			else $(".Abilites").html('None');
-		if (this.DC != '') {$(".DC").html(this.DC);}
-			else $(".DC").hide();
+		$(".DC").html(this.DC);
 		$(".Damage").html(this.Damage);
 		$(".Toughness").html(this.Toughness);
 		$(".Strength").html(this.Strength);
@@ -130,16 +128,13 @@
 		$(".Intelligence").html(this.Intelligence);
 		$(".Wisdom").html(this.Wisdom);
 		$(".Charisma").html(this.Charisma);
-		$(".MB").html(this.MB);
 		$(".Full_Damage").html(this.Full_Damage);
 		$(".FF").html(this.Base_Defense);
 		$(".Dodge").html(this.Dodge);
 		$(".Parry").html(this.Parry);
-		if (this.SCB) {
-			$(".Second_Defense").html(' (' + this.Second_Defense + ')');
-			$(".Second_Dodge").html(' (' + this.Second_Dodge + ')');
-			$(".Second_Parry").html(' (' + this.Second_Parry + ')');
-		}
+		$(".Second_Defense").html(' (' + this.Second_Defense + ')');
+		$(".Second_Dodge").html(' (' + this.Second_Dodge + ')');
+		$(".Second_Parry").html(' (' + this.Second_Parry + ')');
 		$(".Skills").html(this.Skills);
 		$(".Reputation").html(this.Reputation);
 		$(".villain_link").show();
@@ -202,7 +197,7 @@ function create_villain(select, villain_data, skills, name){
 	
 	<div class="StatBlock" style="display:none;" >
 		
-		<table id="statblocktable">
+		<table>
 		<tr>
 			<td>Name:</td>
 			<td colspan="4"></td>
@@ -212,12 +207,18 @@ function create_villain(select, villain_data, skills, name){
 		</tr>
 		<tr class="titlebar"><td colspan="12">Abilities</td></tr>
 		<tr>
-			<td width="8%" class="stat_name" style="text-align:center">STR</td><td width="9%" class="statvalue"><span class="Strength"></span></td>
-			<td width="8%" class="stat_name" style="text-align:center">DEX</td><td width="9%" class="statvalue"><span class="Dexterity"></span></td>
-			<td width="8%" class="stat_name" style="text-align:center">CON</td><td width="9%" class="statvalue"><span class="Constitution"></span></td>
-			<td width="8%" class="stat_name" style="text-align:center">INT</td><td width="9%" class="statvalue"><span class="Intelligence"></span></td>
-			<td width="8%" class="stat_name" style="text-align:center">WIS</td><td width="8%" class="statvalue"><span class="Wisdom"></span></td>
-			<td width="8%" class="stat_name" style="text-align:center">CHA</td><td width="8%" class="statvalue"><span class="Charisma"></span></td>
+			<td width="8%" class="stat_name" style="text-align:center">STR</td>
+			<td width="9%" class="statvalue"><span class="Strength"></span></td>
+			<td width="8%" class="stat_name" style="text-align:center">DEX</td>
+			<td width="9%" class="statvalue"><span class="Dexterity"></span></td>
+			<td width="8%" class="stat_name" style="text-align:center">CON</td>
+			<td width="9%" class="statvalue"><span class="Constitution"></span></td>
+			<td width="8%" class="stat_name" style="text-align:center">INT</td>
+			<td width="9%" class="statvalue"><span class="Intelligence"></span></td>
+			<td width="8%" class="stat_name" style="text-align:center">WIS</td>
+			<td width="8%" class="statvalue"><span class="Wisdom"></span></td>
+			<td width="8%" class="stat_name" style="text-align:center">CHA</td>
+			<td width="8%" class="statvalue"><span class="Charisma"></span></td>
 		</tr>
 		
 		<tr class="titlebar"><td colspan="12">Skills</td></tr>
@@ -230,12 +231,10 @@ function create_villain(select, villain_data, skills, name){
 			<td colspan="12" style="padding-bottom: 30px"><span class="Abilities">None</span></td>
 		</tr>
 		
-		<div class="ShowDC" style="display:none">
-			<tr>
-				<td colspan="2">Save DC:</td>
-				<td colspan="10"><span class="DC"></span></td>
-			</tr>
-		</div>
+		<tr>
+			<td colspan="2">Save DC:</td>
+			<td colspan="10"><span class="DC"></span></td>
+		</tr>
 		
 		<tr class="titlebar"><td colspan="12">Combat</td></tr>
 		<tr>
@@ -246,21 +245,16 @@ function create_villain(select, villain_data, skills, name){
 			<td class="stat_name" colspan="2">Damage:</td>
 			<td colspan="2" class="statvalue">+<span class="Full_Damage"></span></td>
 		</tr>
-		
-		<tr><td class="stat_name">Maneuver:</td>
-		<td colspan="2" class="statvalue">+<span class="MB"></span></td>
-			<span class="ShowSCB" style="display:none">
-				<td colspan="3" class="stat_name">Secondary Attack:</td>
-				<td colspan="2" class="statvalue">+<span class="Secondary_Attack"></span></td>			
-				<td class="stat_name" colspan="2">Damage:</td>
-				<td colspan="2" class="statvalue">+<span class="Damage"></span></td>
-			</span>
-			<span class="NoSCB">
-				<td colspan="9"></td>
+		<tr>
+			<td colspan="3"></td>
+			<td colspan="3" class="stat_name">Secondary Attack:</td>
+			<td colspan="2" class="statvalue">+<span class="Secondary_Attack"></span></td>			
+			<td class="stat_name" colspan="2">Damage:</td>
+			<td colspan="2" class="statvalue">+<span class="Damage"></span></td>
 			</span>
 		</tr>
 		<tr>
-			<td colspan="2" class="stat_name" style="font-style:italic; text-align:center">Defense</td>
+			<td colspan="2" class="stat_name">Defense</td>
 			<td class="stat_name" colspan="2">Flat-Footed:</td>
 			<td colspan="2" class="statvalue"><span class="FF"></span>
 				<span class="Second_Defense"></span></td>
