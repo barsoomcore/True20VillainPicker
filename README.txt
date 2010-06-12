@@ -43,36 +43,18 @@ The following text is the property of Wizards of the Coast, Inc. and is Copyrigh
 14 Reformation: If any provision of this License is held to be unenforceable, such provision shall be reformed only to the extent necessary to make it enforceable.
 
 15 COPYRIGHT NOTICE Open Game License v 1.0 Copyright 2000, Wizards of the Coast, Inc.
-System Reference Document, Copyright 2000, Wizards of the Coast, Inc., 
-Authors Jonathan Tweet, Monte Cook, Skip Williams, based on original 
-material by E. Gary Gygax and Dave Arneson. 
-Modern System Reference Document Copyright 2002-2004, Wizards of 
-the Coast, Inc.; Authors Bill Slavicsek, Jeﬀ Grubb, Rich Redman, Charles 
-Ryan, Eric Cagle, David Noonan, Stan!, Christopher Perkins, Rodney 
-Thompson, and JD Wiker,  based on material by Jonathan Tweet, Monte 
-Cook, Skip Williams, Richard Baker, Peter Adkison, Bruce R. Cordell, John 
-Tynes, Andy Collins, and JD Wiker. 
+System Reference Document, Copyright 2000, Wizards of the Coast, Inc., Authors Jonathan Tweet, Monte Cook, Skip Williams, based on original material by E. Gary Gygax and Dave Arneson. 
+Modern System Reference Document Copyright 2002-2004, Wizards of the Coast, Inc.; Authors Bill Slavicsek, Jeﬀ Grubb, Rich Redman, Charles Ryan, Eric Cagle, David Noonan, Stan!, Christopher Perkins, Rodney Thompson, and JD Wiker,  based on material by Jonathan Tweet, Monte Cook, Skip Williams, Richard Baker, Peter Adkison, Bruce R. Cordell, John Tynes, Andy Collins, and JD Wiker. 
 Advanced Player’s Guide, Copyright 2004, White Wolf Publishing, Inc. 
-Blue Rose, Copyright 2005, Green Ronin Publishing; Authors Jeremy 
-Crawford, Dawn Elliot, Steve Kenson, Alejandro Melchoir, and John 
-Snead. 
-Monte Cook Presents: Iron Heroes, Copyright 2005, Monte J. Cook. All rights 
-reserved. 
-Mutants & Masterminds, Copyright 2002, Green Ronin Publishing; Author 
-Steve Kenson. 
-The Psychic’s Handbook, Copyright 2004, Green Ronin Publishing; Author 
-Steve Kenson. 
-Unearthed Arcana, Copyright 2003, Wizards of the Coast, Inc.; Andy Collins, 
-Jesse Decker, David Noonan, Rich Redman. 
-True20 Adventure Roleplaying, Copyright 2005, Green Ronin Publishing; 
-Author Steve Kenson. 
-Caliphate Nights, Copyright 2006, Paradigm Concepts; Author Aaron 
-Infante-Levy 
-Lux Aeternum, Copyright 2006, BlackWyrm Games; Author Ryan Wolfe, 
-with Dave Mattingly, Aaron Sullivan, and Derrick Thomas. 
-Mecha vs. Kaiju, Copyright 2006, Big Finger Games; Author Johnathan 
-Wright 
-Borrowed Time, Copyright 2006, Golden Elm Media; Authors Bruce Baugh 
-and David Bolack
+Blue Rose, Copyright 2005, Green Ronin Publishing; Authors Jeremy Crawford, Dawn Elliot, Steve Kenson, Alejandro Melchoir, and John Snead. 
+Monte Cook Presents: Iron Heroes, Copyright 2005, Monte J. Cook. All rights reserved. 
+Mutants & Masterminds, Copyright 2002, Green Ronin Publishing; Author Steve Kenson. 
+The Psychic’s Handbook, Copyright 2004, Green Ronin Publishing; Author Steve Kenson. 
+Unearthed Arcana, Copyright 2003, Wizards of the Coast, Inc.; Andy Collins, Jesse Decker, David Noonan, Rich Redman. 
+True20 Adventure Roleplaying, Copyright 2005, Green Ronin Publishing; Author Steve Kenson. 
+Caliphate Nights, Copyright 2006, Paradigm Concepts; Author Aaron Infante-Levy 
+Lux Aeternum, Copyright 2006, BlackWyrm Games; Author Ryan Wolfe, with Dave Mattingly, Aaron Sullivan, and Derrick Thomas. 
+Mecha vs. Kaiju, Copyright 2006, Big Finger Games; Author Johnathan Wright 
+Borrowed Time, Copyright 2006, Golden Elm Media; Authors Bruce Baugh and David Bolack
 True20 Villain Roles written by ValhallaGH
 
