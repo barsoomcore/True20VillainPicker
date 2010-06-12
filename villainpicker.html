@@ -1,0 +1,416 @@
+<head>
+<title>Villain Generator</title>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+	function villain(selected_level, name){
+	this.Level = selected_level[0];
+	this.BCB = selected_level[1];
+	this.SCB = selected_level[2];
+	this.Fortitude = parseInt(selected_level[3]) + parseInt(selected_level[12]);
+	this.Reflex = parseInt(selected_level[4]) + parseInt(selected_level[11]);
+	this.Will = parseInt(selected_level[5]) + parseInt(selected_level[14]);
+	this.DC = selected_level[7];
+	this.Damage = selected_level[8];
+	this.Base_Toughness = selected_level[9];
+	this.Strength = selected_level[10];
+	this.Dexterity = selected_level[11];
+	this.Constitution = selected_level[12];
+	this.Intelligence =selected_level[13];
+	this.Wisdom = selected_level[14];
+	this.Charisma = selected_level[15];
+	this.Name = name;
+	
+	this.MB = parseInt(this.BCB) + parseInt(this.Strength);
+	this.Primary_Attack = parseInt(this.BCB) + parseInt(this.Dexterity);
+	this.Full_Damage = parseInt(this.Damage) + parseInt(this.Strength);
+	this.Base_Defense = parseInt(this.BCB) + 10;
+	this.Dodge = this.Base_Defense + parseInt(this.Dexterity);
+	this.Parry = this.Base_Defense + parseInt(this.Strength);
+	
+	this.Secondary_Attack = parseInt(this.SCB) + parseInt(this.Dexterity);
+	this.Second_Defense = parseInt(this.SCB) + 10;
+	this.Second_Dodge = this.Second_Defense + parseInt(this.Dexterity);
+	this.Second_Parry = this.Second_Defense + parseInt(this.Strength);
+	
+	this.set_Reputation = function(){
+		var Reputation = ((parseInt(this.Level)/5)).toPrecision(1);
+		if (Reputation < 1) { Reputation = 0 };
+		if (this.Name == 'War Leader'){
+			Reputation = parseInt(Reputation) + 3;
+		}
+		this.Reputation = Reputation;
+	};
+	this.set_Toughness = function(){
+		var Toughness = '';
+		if (this.Base_Toughness){
+			Toughness = parseInt(this.Base_Toughness) + parseInt(this.Constitution);
+		}
+		else Toughness = parseInt(this.Constitution);
+		
+		this.Toughness = Toughness;
+	};
+	
+	this.format_attributes = function(){
+		var Attributes = [this.Strength, this.Dexterity, this.Constitution, this.Intelligence, this.Wisdom, this.Charisma];
+		var Attribute_names = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'];
+	
+		for(var i = 0; i < Attributes.length; i++){
+			if ( Attributes[i].charAt(0) != '-'){
+				this[Attribute_names[i]] = '+' + Attributes[i];
+			}
+		}
+	};
+	
+	this.create_skills_list = function(skills){
+		var skill_list = new Array();
+		for (var i = 0; i < skills.length; i++) {
+			var key_ability = skills[i][1];
+			var this_skill = new Array();
+			this_skill[0] = skills[i][0];
+			this_skill[1] = 3 + parseInt(this.Level) + parseInt(this[key_ability]);
+			if (this.Name == 'Artillery') {
+				var Level_Skills = ['Acrobatics', 'Climb', 'Jump', 'Swim'];
+				for (var j = 0; j <= Level_Skills.length; j++) {
+					if (this_skill[0] == Level_Skills[j]) {
+						this_skill[1] = this_skill[1] - 3;
+					}
+				}
+			}
+			if (this.Name == 'War Leader') {
+				if (this_skill[0] == 'Notice') {
+					this_skill[1] = this_skill[1] - 3;
+				}
+			}
+			if (String(this_skill[1]).charAt(0) != '-')
+				this_skill[1] = '+' + this_skill[1];
+			skill_list.push(this_skill.join(':&nbsp;'));
+		}
+		this.Skills = skill_list.join('; ');
+	};
+	
+	this.create_abilities_list = function(villain_data){
+		var total_abilities = new Array();
+		var j = 0;
+		for (var i = 1; i <= this.Level; i++) {
+			if (villain_data[i][6] != ''){
+				total_abilities[j] = villain_data[i][6];
+				j++;
+			}
+		}	
+		this.Abilities = total_abilities.join(', ');
+	};
+	
+	// got this function from the good folks at Shopify
+	// http://forums.shopify.com/categories/2/posts/29259
+	this.set_Level = function() {
+		var n = this.Level;
+	   	var s=["th","st","nd","rd"],
+		   v=n%100;
+	   	this.Level = n+(s[(v-20)%10]||s[v]||s[0]);
+	};
+	
+	this.display = function(){
+		$(".StatBlock").show();
+		$(".Level").html(this.Level + ' Level ');
+		$(".BCB").html(this.BCB);
+		$(".Primary_Attack").html(this.Primary_Attack);
+		$(".Secondary_Attack").html(this.Secondary_Attack);
+		$(".Fort").html(this.Fortitude);
+		$(".Ref").html(this.Reflex);
+		$(".Will").html(this.Will);
+		if (this.Abilities != '') {$(".Abilities").html(this.Abilities);}
+			else $(".Abilites").html('None');
+		if (this.DC != '') {$(".DC").html(this.DC);}
+			else $(".DC").hide();
+		$(".Damage").html(this.Damage);
+		$(".Toughness").html(this.Toughness);
+		$(".Strength").html(this.Strength);
+		$(".Dexterity").html(this.Dexterity);
+		$(".Constitution").html(this.Constitution);
+		$(".Intelligence").html(this.Intelligence);
+		$(".Wisdom").html(this.Wisdom);
+		$(".Charisma").html(this.Charisma);
+		$(".MB").html(this.MB);
+		$(".Full_Damage").html(this.Full_Damage);
+		$(".FF").html(this.Base_Defense);
+		$(".Dodge").html(this.Dodge);
+		$(".Parry").html(this.Parry);
+		if (this.SCB) {
+			$(".Second_Defense").html(' (' + this.Second_Defense + ')');
+			$(".Second_Dodge").html(' (' + this.Second_Dodge + ')');
+			$(".Second_Parry").html(' (' + this.Second_Parry + ')');
+		}
+		$(".Skills").html(this.Skills);
+		$(".Reputation").html(this.Reputation);
+		$(".villain_link").show();
+		$("title").html(this.Level + ' Level ' + name);
+		$(".Name").html(this.Name);
+	};
+};
+
+function create_villain(select, villain_data, skills, name){
+	var new_villain = new villain(villain_data[select], name);
+	new_villain.format_attributes();
+	new_villain.create_abilities_list(villain_data);
+	new_villain.create_skills_list(skills);
+	new_villain.set_Toughness();
+	new_villain.set_Reputation();
+	new_villain.set_Level();
+	
+	return new_villain;
+};
+	
+	$(document).ready(function(){
+		var villain_data = [['Level', 'BCB', 'SCB', 'Fort', 'Ref', 'Will', 'Abilities', 'DC', 'Damage', 'Toughness', 'Str', 'Dex', 'Con', 'Int', 'Wis', 'Cha', 'Skills', 'Description'], ['1', '1', '0', '0', '2', '2', 'Improved Initiative, Precise Shot', '', '2', '', '0', '3', '2', '0', '1', '0', 'Acrobatics, Climb, Concentration, Jump, Knowledge, Notice, Swim', '<p>Artillery is meant to present powerful ranged combatants. Unlike lurkers, artillery don\xe2\x80\x99t focus on ambush; they\xe2\x80\x99re good enough, and use terrain intelligently enough, that they can confront things head-on. Unlike skirmishers, artillery don\xe2\x80\x99t have to stay on the move, although clever movement is important to their success and survival.</p><p>This role can represent master archers, range-focused highwaymen, powerful evokers, demon-fused wizards, or any other character that is a threat due to powerful, unending ranged attacks.</p><p><b>Level:</b> Artillery of the indicated level is a good challenge for a party of about four heroes of that level. One-on-one, artillery has a good chance of defeating a single hero, under optimal circumstances.</p><p><b>Skills:</b> Artillery is accomplished at detecting and identifying targets, and proficient in the skills needed to move around. As such, they have Level + 3 ranks in Concentration, Knowledge (pick one), and Notice, and Level ranks in Acrobatics, Climb, Jump, and Swim. Depending upon their style, they may have one or two additional skills (such as Knowledge (supernatural) or Survival).</p><p><b>Combat:</b> Artillery has exceptional ranged combat skill. When making ranged attacks use the Primary Attack number. The Secondary Attack is for melee attacks. Likewise, the Defense numbers in parentheses are used when avoiding melee attack -- the larger numbers are for avoiding ranged attacks.</p><p><b>Feats:</b> Artillery relies upon their own deadly skill, and the distance and obstacles between them and their targets, to defeat their foes. The listed feats and abilities should allow that to happen.</p><p><em>Widen Attack:</em> The artillery can widen its basic damage attack (as the Widen Power feat) the listed times per encounter. This may be an enhanced power, specialized grenades, a hail of arrows, or some other special variation on their normal attack. (The limited usage is simply to prevent over-use, since such powerful area attacks quickly drain heroic resources. If you really need more uses, then have them; seriously consider granting a Conviction point to affected heroes.)</p><p><b>Damage:</b> This column is the artillery\xe2\x80\x99s attack-form damage bonus. It can represent magic blasts, crossbows, muskets, longbows, shuriken, or whatever other attack form suits your descriptors of the artillery. Regardless, it has a range increment of 100 ft and 20/+4 critical.</p><p><b>Size:</b> Artillery can be any size, though medium is the most common. If applying size changes, do not adjust ability scores, combat bonuses, or toughness.</p>'], ['2', '2', '1', '0', '3', '3', 'Ranged Pin', '', '2', '', '0', '3', '2', '0', '1', '0', ''], ['3', '3', '2', '1', '4', '3', 'Improved Ranged Disarm', '', '3', '', '0', '3', '2', '0', '1', '0', ''], ['4', '4', '3', '1', '5', '4', 'Improved Precise Shot', '', '3', '', '0', '3', '2', '0', '1', '0', ''], ['5', '5', '3', '1', '6', '4', '', '', '3', '', '0', '3', '2', '0', '1', '0', ''], ['6', '6', '4', '2', '7', '5', 'Widen Attack (one)', '', '4', '', '0', '3', '2', '1', '1', '1', ''], ['7', '7', '5', '2', '8', '6', '', '', '4', '', '0', '3', '3', '1', '2', '1', ''], ['8', '8', '6', '2', '9', '6', 'Defensive Roll 1', '', '5', '1', '0', '3', '3', '1', '2', '1', ''], ['9', '9', '6', '3', '10', '6', '', '', '5', '1', '0', '4', '3', '1', '2', '1', ''], ['10', '10', '7', '3', '11', '7', 'Widen Attack (two)', '', '6', '1', '0', '4', '3', '1', '2', '1', ''], ['11', '11', '8', '3', '12', '7', 'Improved Critical (19-20)', '', '6', '1', '1', '4', '4', '2', '3', '2', ''], ['12', '12', '9', '4', '13', '8', '', '', '6', '1', '1', '4', '4', '2', '3', '2', ''], ['13', '13', '9', '4', '14', '8', '', '', '7', '1', '1', '5', '4', '2', '3', '2', ''], ['14', '14', '10', '4', '15', '9', 'Widen Attack (three)', '', '7', '1', '1', '5', '4', '2', '3', '2', ''], ['15', '15', '11', '5', '16', '9', '', '', '8', '1', '1', '5', '5', '2', '4', '2', ''], ['16', '16', '12', '5', '17', '10', 'Defensive Roll 2', '', '8', '2', '1', '5', '5', '3', '4', '3', ''], ['17', '17', '12', '5', '18', '10', '', '', '8', '2', '1', '6', '5', '3', '4', '3', ''], ['18', '18', '13', '6', '19', '11', 'Widen Attack (four)', '', '9', '2', '1', '6', '5', '3', '4', '3', ''], ['19', '19', '14', '6', '20', '11', '', '', '9', '2', '1', '6', '6', '3', '5', '3', ''], ['20', '20', '15', '6', '21', '12', '', '', '10', '2', '1', '7', '6', '3', '5', '3', '']];
+		var skills = [['Acrobatics', 'Dexterity'], ['Climb', 'Strength'], ['Concentration', 'Wisdom'], ['Jump', 'Strength'], ['Knowledge', 'Intelligence'], ['Notice', 'Wisdom'], ['Swim', 'Strength']];
+		var selected = '0';
+		var name = 'Artillery';
+		
+		//set the level select options
+		document.Villain.Villain_Level.options.length = 0;
+		for (i = 1; i < villain_data.length; i++){
+			document.Villain.Villain_Level.options[i] = new Option(i, i);
+		}
+		
+		$(".Description").html(villain_data[1][17]);
+		$(".Name").html(name);
+		
+		
+		$("#level").change(function(){
+			var select = document.Villain.Villain_Level.options.selectedIndex;
+			if (select != 0){
+				var villain_obj = create_villain(select, villain_data, skills, name);				
+				villain_obj.display();
+				
+			}		
+		});
+		
+	});
+	
+</script>
+</head>
+<body>
+
+	
+	<div>
+	<h4>Select Villain Level:</h4>
+	<form name="Villain">
+		<select name="Villain_Level" id="level">
+		</select>
+	</form>
+	</div>
+	
+	<div class="StatBlock" style="display:none;" >
+		
+		<table id="statblocktable">
+		<tr>
+			<td>Name:</td>
+			<td colspan="4"></td>
+			<td colspan="4">(<span class="Level"></span><span class="Name"></span> )</td>
+			<td colspan="2" class="stat_name">Reputation:</td>
+			<td class="statvalue">+<span class="Reputation"></span></td>
+		</tr>
+		<tr class="titlebar"><td colspan="12">Abilities</td></tr>
+		<tr>
+			<td width="8%" class="stat_name" style="text-align:center">STR</td><td width="9%" class="statvalue"><span class="Strength"></span></td>
+			<td width="8%" class="stat_name" style="text-align:center">DEX</td><td width="9%" class="statvalue"><span class="Dexterity"></span></td>
+			<td width="8%" class="stat_name" style="text-align:center">CON</td><td width="9%" class="statvalue"><span class="Constitution"></span></td>
+			<td width="8%" class="stat_name" style="text-align:center">INT</td><td width="9%" class="statvalue"><span class="Intelligence"></span></td>
+			<td width="8%" class="stat_name" style="text-align:center">WIS</td><td width="8%" class="statvalue"><span class="Wisdom"></span></td>
+			<td width="8%" class="stat_name" style="text-align:center">CHA</td><td width="8%" class="statvalue"><span class="Charisma"></span></td>
+		</tr>
+		
+		<tr class="titlebar"><td colspan="12">Skills</td></tr>
+		<tr>
+			<td colspan="12" style="padding-bottom: 30px"><span class="Skills"></span></td>
+		</tr>
+		
+		<tr class="titlebar"><td colspan="12">Feats and Powers</td></tr>
+		<tr>
+			<td colspan="12" style="padding-bottom: 30px"><span class="Abilities">None</span></td>
+		</tr>
+		
+		<div class="ShowDC" style="display:none">
+			<tr>
+				<td colspan="2">Save DC:</td>
+				<td colspan="10"><span class="DC"></span></td>
+			</tr>
+		</div>
+		
+		<tr class="titlebar"><td colspan="12">Combat</td></tr>
+		<tr>
+			<td class="stat_name">Init:</td>
+			<td colspan="2" class="statvalue"><span class="Dexterity"></span></td>
+			<td colspan="3" class="stat_name">Primary Attack:</td>
+			<td colspan="2" class="statvalue">+<span class="Primary_Attack"></span></td>
+			<td class="stat_name" colspan="2">Damage:</td>
+			<td colspan="2" class="statvalue">+<span class="Full_Damage"></span></td>
+		</tr>
+		
+		<tr><td class="stat_name">Maneuver:</td>
+		<td colspan="2" class="statvalue">+<span class="MB"></span></td>
+			<span class="ShowSCB" style="display:none">
+				<td colspan="3" class="stat_name">Secondary Attack:</td>
+				<td colspan="2" class="statvalue">+<span class="Secondary_Attack"></span></td>			
+				<td class="stat_name" colspan="2">Damage:</td>
+				<td colspan="2" class="statvalue">+<span class="Damage"></span></td>
+			</span>
+			<span class="NoSCB">
+				<td colspan="9"></td>
+			</span>
+		</tr>
+		<tr>
+			<td colspan="2" class="stat_name" style="font-style:italic; text-align:center">Defense</td>
+			<td class="stat_name" colspan="2">Flat-Footed:</td>
+			<td colspan="2" class="statvalue"><span class="FF"></span>
+				<span class="Second_Defense"></span></td>
+			<td class="stat_name">Dodge:</td>
+			<td colspan="2" class="statvalue"><span class="Dodge"></span>
+				<span class="Second_Dodge"></span></td>
+			<td class="stat_name">Parry:</td>
+			<td colspan="2" class="statvalue"><span class="Parry"></span>
+				<span class="Second_Parry"></span></td>
+		</tr>
+		<tr class="stat_name" style="text-align:center; background-color: grey; color:white">
+			<td>Damage:</td>
+			<td colspan="2">0</td>
+			<td colspan="3">5+</td>
+			<td colspan="3">10+</td>
+			<td colspan="3">15+</td>
+		</tr>
+		<tr class="stat_name" style="text-align:center">
+			<td>/</td>
+			<td colspan="2">Bruised</td>
+			<td colspan="3">Dazed</td>
+			<td colspan="3">Staggered</td>
+			<td colspan="3">Unconscious</td>
+		</tr>
+		<tr style="text-align:center;">
+			<td>&nbsp;</td>
+			<td colspan="2">
+				<table width="100%"><tr>
+					<td class="checkbox">&nbsp;</td>
+					<td>&nbsp;</td>
+					<td class="checkbox">&nbsp;</td>
+					<td>&nbsp;</td>
+					<td class="checkbox">&nbsp;</td>
+				</tr></table>
+			</td>
+			<td colspan="3">
+				<table width="100%"><tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td class="checkbox">&nbsp;</td>
+					<td>&nbsp;</td>
+					<td class="checkbox">&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr></table>
+			</td>
+			<td colspan="3">
+				<table width="100%"><tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td class="checkbox">&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr></table>
+			</td>
+			<td colspan="3">
+				<table width="100%"><tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td class="checkbox">&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr></table>
+			</td>
+		</tr>
+		<tr class="stat_name" style="text-align:center">
+			<td>X</td>
+			<td colspan="2">Hurt</td>
+			<td colspan="3">Wounded</td>
+			<td colspan="3">Disabled</td>
+			<td colspan="3">Dying</td>
+		</tr>
+		<tr class="stat_name" style="text-align:center; background-color: grey; color:white"><td>Fatigue:</td><td colspan="11"></td></tr>
+		<tr class="stat_name" style="text-align:center">
+			<td></td>
+			<td colspan="2">Strained</td>
+			<td colspan="3">Winded</td>
+			<td colspan="3">Fatigued</td>
+			<td colspan="3">Exhausted</td>
+		</tr>
+		<tr style="text-align:center">
+			<td>/</td>
+			<td colspan="2">
+				<table width="100%"><tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td class="checkbox">&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr></table>
+			</td>
+			<td colspan="3">
+				<table width="100%"><tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td class="checkbox">&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr></table>
+			</td>
+			<td colspan="3">
+				<table width="100%"><tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td class="checkbox">&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr></table>
+			</td>
+			<td colspan="3">
+				<table width="100%"><tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td class="checkbox">&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr></table>
+			</td>
+		</tr>
+			
+		<tr class="titlebar"><td colspan="12">Saves</td></tr>
+		<tr>
+			<td colspan="2" class="stat_name">Toughness:</td>
+			<td class="statvalue">+<span class="Toughness"></span></td>
+			<td colspan="2" class="stat_name">Fortitude:</td>
+			<td class="statvalue">+<span class="Fort"></span></td>
+			<td colspan="2" class="stat_name">Reflex:</td>
+			<td class="statvalue">+<span class="Ref"></span></td>
+			<td colspan="2" class="stat_name">Will:</td>
+			<td class="statvalue">+<span class="Will"></span></td>
+		</tr>
+		</table>
+	</div>
+	
+	<h3 class="Name"></h3>
+	<p class="Description"></p>
+	
+	
+	<h4>Where This Came From</h4>
+	<p>The idea and execution of Villain Roles was the brainchild of the very clever folks over on <a href="http://true20.com/forum/viewtopic.php?f=2&t=2304">the True20 discussion forums</a>, in particular folks such as The Shadow, iwatt, Baduin and ValhallaGH (who did most of the heavy lifting as far as defining the roles themselves). I just wrote a bit of JavaScript around their hard work.</p>
+	
+</body>
+</html>
